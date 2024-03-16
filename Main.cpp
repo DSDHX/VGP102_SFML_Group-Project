@@ -1,21 +1,14 @@
 #include <SFML/Graphics.hpp>
-#include <iostream> 
+#include "Background.h"
+#include "Player.h"
 
-int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "2D Sprite Movement");
+int main()
+{
+    //Create Window
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Game");
 
-    sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("C:/Users/23259/Desktop/VGP102Final/res/img/brick.jpg")) {
-        return -1;
-    }
-    sf::Sprite background(backgroundTexture);
-
-    sf::Texture playerTexture;
-    if (!playerTexture.loadFromFile("C:/Users/23259/Desktop/VGP102Final/res/img/player.png")) {
-        return -1;
-    }
-    sf::Sprite player(playerTexture);
-    player.setPosition(50, 300);
+    Background background;
+    background.load("C:/Users/23259/Desktop/VGP102Final/res/img/brick.jpg");
 
     sf::Texture obstacleTexture;
     if (!obstacleTexture.loadFromFile("C:/Users/23259/Desktop/VGP102Final/res/img/spike.png")) {
@@ -31,6 +24,8 @@ int main() {
     sf::Sprite finishLine(finishTexture);
     finishLine.setPosition(700, 300);
 
+    Player player;
+    player.setPosition(50, 300);
     float moveSpeed = 0.1f;
 
     bool isPlayerAlive = true;
@@ -48,10 +43,14 @@ int main() {
     youDieText.setFillColor(sf::Color::Red);
     youDieText.setPosition(300, 200);
 
-    while (window.isOpen()) {
+    //Game while
+    while (window.isOpen())
+    {
         sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
                 window.close();
             }
         }
@@ -82,26 +81,20 @@ int main() {
         }
 
         if (player.getGlobalBounds().intersects(finishLine.getGlobalBounds())) {
-            window.close(); 
+            window.close();
         }
 
         window.clear();
-
-        window.draw(background);
-
+        background.draw(window);
+        player.draw(window);
         window.draw(obstacle);
         window.draw(finishLine);
-        if (isPlayerAlive) {
-            window.draw(player);
-        }
-
         if (!isPlayerAlive) {
             window.draw(youDieText);
         }
         else if (player.getGlobalBounds().intersects(finishLine.getGlobalBounds())) {
             window.draw(youWinText);
         }
-
         window.display();
     }
 
