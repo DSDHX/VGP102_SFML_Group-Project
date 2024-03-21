@@ -10,7 +10,7 @@ Player::Player()
 	sprite.setTexture(texture);
 }
 
-void Player::draw(sf::RenderWindow& window)
+void Player::draw(sf::RenderWindow& window) // draw player
 {
 	window.draw(sprite);
 }
@@ -25,7 +25,7 @@ void Player::move(float offsetX, float offsetY)
 	sprite.move(offsetX, offsetY);
 }
 
-sf::FloatRect Player::getGlobalBounds() const
+sf::FloatRect Player::getGlobalBounds() const // for check collision
 {
 	return sprite.getGlobalBounds();
 }
